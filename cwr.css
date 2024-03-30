@@ -1,0 +1,807 @@
+
+<style>
+	.course-player__content-inner {
+		background: #11111a;
+	}
+	
+	.course-player__content-header,
+	.course-player__content-header h3,
+	.course-player__content-header button {
+		background-color: #1e1e2d !important; text-align: center; font-size: x-large; font-family: sans-serif;
+	}
+	
+	.fr-view img.fr-dib {
+		border-radius: 10px;
+	}
+	
+	p {
+		margin-top: 0; margin-bottom: 5px; font-size: 18px;
+	}
+	
+	.my-5 {
+		margin-top: 0 !important;
+	}
+	
+	.container.my-5 img {
+		width: 90% !important;/* Make the image width responsive to the container width */
+		height: auto;/* Adjust height to maintain aspect ratio */
+		width: 1921px; border-radius: 10px;/* This applies rounded corners, adjust as needed */
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);/* This adds a subtle shadow effect */
+		object-fit: cover;
+	}
+	
+	.btn-cwr-offcanvas {
+		color: #87ceebb0; font-weight: 100; opacity: 0.8;
+	}
+	
+	.overlay {
+		position: absolute; top: 20px; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.7);/* Transparent white, adjust as needed */
+		z-index: 20;
+	}
+	
+	.container {
+		padding: 20px; padding-left: 0; padding-right: 0; max-width: 100%; margin: auto; padding-bottom: 0px;
+	}
+	
+	.guidem-master-container {
+		max-width: 100%; overflow-x: hidden; overflow-y: auto;/* Enable vertical scrolling if needed */
+		padding: 5px; margin-right: 8px; margin-left: 2px;
+	}
+	
+	.container-banner {
+		margin-top: -50px; padding-top: 0px;background-color: #1e1e2d; border-radius: 0.25rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); padding: 20px; color: white; margin-bottom: -9px; height: fit-content;padding-bottom: 0px;padding-top: 5px;
+	}
+	
+	.container-banner .img {
+		width: 300 !important;
+	}
+	
+	.banner-title {
+		font-size: 16px; font-weight: bold; margin-bottom: 10px;display: none;/*ian remove this later*/
+	}
+	
+	.container-progress {
+		display: flex; align-items: center; justify-content: space-between; background-color: #1e1e2d; border-radius: 0.25rem;box-shadow: 0px 9px 8px rgba(0, 0, 0, 0.5);padding: 20px;/* Adjusted padding */
+		margin-top: -70px; color: white; margin-bottom: -40px;
+	}
+	
+	.guidem-progress-container {
+		display: flex; align-items: center; background-color: #474545; border-radius: 0.25rem; flex-grow: 1; margin: 0 10px; height: 10px; position: relative;
+	}
+	
+	.guidem-progress-bar {
+		background-color: #28a745; height: 100%; border-radius: 0.25rem; width: 0%; position: relative; transition: width 0.5s ease; min-width: 2px;
+	}
+	
+	.progress-bar-percent {
+		position: absolute; top: 50%; left: 20px; transform: translateY(-50%); font-size: 12px; color: white; font-weight: bold; z-index: 1;
+	}
+	
+	.btn-custom {
+		padding: 6px 12px; border: none; cursor: pointer; font-size: 12px; margin-left: 5px; color: white; border-radius: 5px; transition: background-color 0.3s ease;
+	}
+	
+	.btn-start {
+		background-color: #2f8132; z-index: 9999;
+	}
+	
+	.btn-start-lab {
+		z-index: 9999;
+	}
+	
+	.btn-start:hover {
+		background-color: #32ad37;
+	}
+	
+	.btn-revert {
+		background-color: #ce900a; color: #000;
+	}
+	
+	.btn-revert:hover {
+		background-color: #ffbd2e; color: #000;
+	}
+	
+	.btn-reboot {
+		background-color: #9d1d10;
+	}
+	
+	.btn-reboot:hover {
+		background-color: #ab2112;
+	}
+	/* Accordion Styles */
+	
+	.accordion-item {
+		background-color: #2c2c3d; border: none; border-left: 3px solid #3DD1A5;
+		/* Red color for collapsed state */
+		margin-bottom: 15px; transition: border-left-color 0.3s ease;
+		/* Transition for smooth color change */
+	}
+	
+	.accordion-header .accordion-button {
+		background-color: #2b2b4c; color: white; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.3s; font-size: x-large;
+	}
+	
+	.accordion-header .accordion-button:not(.collapsed) {
+		background-color: #1e1e2f; color: #fff; font-size: x-large; border-bottom: 3px solid #2c2c3d; background: #414192;box-shadow: inset 0 calc(-1* var(--bs-accordion-border-width)) 0 #3cd1a400;
+	}
+	
+	.accordion-button:not(.collapsed)::after {
+		filter: hue-rotate(289deg) saturate(500%);
+	}
+	
+	.accordion-button.collapsed::after {
+		filter: brightness(2.5);
+	}
+	
+	.accordion-button {
+		border-bottom: 3px solid #2b2b4b; background: #414192;
+	}
+	
+	.accordion-body {
+		background-color: #1e1e2f; border-top: 1px solid #333346; padding: 15px; color: lightgray;order: solid 3px blue;font-size: large;
+	}
+	/* Form Styles */
+	
+	.guidem-form {
+		padding-top: 20px;display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+	}
+	
+	.form-control {
+		margin-left: 50px;background-color: transparent; color: lightgray; border: 1px solid #444; border-radius: 5px; padding: 10px; width: 100%;
+	}
+	
+	.form-control::placeholder {
+		color: gray;
+	}
+	
+	.form-control:focus {
+		background-color: rgba(255, 255, 255, 0.1); color: lightgray; border-color: #87CEEB; outline: none; box-shadow: none;
+	}
+	
+	.form-control:disabled {
+		background-color: rgba(255, 255, 255, 0.1); color: lightgray; border-color: #11111a; outline: none; box-shadow: none;
+	}
+	
+	.form-control.blur::placeholder {
+		color: #3b3d54 !important;/* Light blue font color */
+	}
+	
+	.custom-button {
+		background-color: #007bff; color: white; border: none; border-radius: 5px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s;margin-right: 50px;
+	}
+	
+	.custom-button:disabled {
+		opacity: 0.8;background-color: #007bff; color: white; border: none; border-radius: 5px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s;cursor: not-allowed;
+	}
+	
+	.custom-button i {
+		margin-right: 5px;
+	}
+	
+	.guidem-hint-button {
+		background-color: #e67e00; border-color: #ff9800; color: white;
+	}
+	
+	.guidem-hint-button:hover {
+		background-color: #ce900a;
+	}
+	
+	.btn-custom:disabled {
+		opacity: 0.6;/* Grayish shade for background */
+		color: #6c757d;/* Dim color for text */
+		cursor: not-allowed;/* The cursor to show action is not allowed */
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+	}
+	
+	.timer-container.disabled {
+		opacity: 0.4;/* Half transparent */
+		pointer-events: none;/* Disables any mouse events on the element */
+		color: #6c757d;/* Dim color for text */
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+	}
+	
+	#accordionguidem .accordion-button {
+		pointer-events: none; opacity: 0.5; user-select: none;
+	}
+	
+	.modal-backdrop {
+		display: none;
+	}
+	
+	.modal {
+		background: rgba(51, 65, 85, 0.60);/* Adjust the last value for opacity */
+	}
+	
+	.modal-content {
+		background-color: #334155;/* Specify your desired background color here */
+		color: #ffffff;/* Adjust text color for better readability if needed */
+		/* Other styling properties as needed */
+	}
+	
+	.modal-header {
+		color: yellow; display: flex; flex-direction: column; align-items: center; justify-content: center; border: none !important; margin-bottom: 20px;
+	}
+	
+	.modal-title {
+		color: #3DD1A5; font-size: 24px;
+	}
+	
+	.modal-footer {
+		background-color: #1c2130; border: none;
+	}
+	
+	.modal-content {
+		background-color: #1c2130;
+	}
+	
+	::-webkit-scrollbar {
+		width: 2; height: 2;
+	}
+	
+	.scroll-container:hover::-webkit-scrollbar {
+		width: 2px; height: 2px;
+	}
+	/* Track */
+	
+	::-webkit-scrollbar-track {
+		background: yellow;/* Hide scrollbar track */
+	}
+	/* Handle */
+	
+	::-webkit-scrollbar-thumb {
+		background: #888; border-radius: 4px;
+	}
+	
+	* {
+		scrollbar-width: thin; #2b2b4a;
+	}
+	
+	* {
+		scrollbar-color: #2b2b4a transparent;
+	}
+	
+	.btn-group .btn {
+		margin-left: -2px;transition: background-color 0.3s ease;color: white;border: none; z-index: 50 !Important;
+	}
+	
+	.btn-group .btn:first-child {
+		border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem;
+	}
+	
+	.btn-group .btn:last-child {
+		border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem;
+	}
+	
+	.btn-group .btn:not(:first-child):not(:last-child) {
+		z-index: 50 !Important; border-radius: 0;
+	}
+	
+	.btn .fa {
+		margin-right: 5px;
+	}
+	
+	.btn-points .fa-gem {
+		color: lightgreen;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-coins .fa-coins {
+		color: gold;/* Sets the color of the coins icon in the Coins button */
+	}
+	
+	.btn-tasks .fa-sword {
+		color: skyblue;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-custom:hover {
+		opacity: 0.8;/* Slight transparency on hover */
+	}
+	
+	.btn-custom .fa-gem,
+	.btn-custom .fa-coins {
+		margin-right: 5px;/* Space between icon and text */
+	}
+	
+	.offcanvas-header {
+		background-color: #1e1e2d; color: white; border-bottom: 1px solid rgba(255, 255, 255, 0.1);width: 100%;padding-left: 5px; padding-right: 5px; padding-bottom: 0; padding-top: 0;
+	}
+	
+	.offcanvas-title {
+		/* Ensure the title fills the header */
+		width: 100%;
+	}
+	
+	.offcanvas-image {
+		/* Make the image responsive to the container width */
+		width: 100%; height: auto;/* Maintain aspect ratio */
+		display: block;/* Remove default inline behaviors which can affect layout */
+	}
+	
+	#userOffcanvasTabs {
+		padding-left: 20px !important;flex-wrap: nowrap;flex: 0 1 auto;padding-right: 20px
+	}
+	
+	#userOffcanvasTabs .nav-item {
+		flex-wrap: nowrap;flex: 0 1 auto;
+	}
+	
+	.offcanvas-backdrop.show {
+		opacity: 0;/* Makes the backdrop fully transparent */
+	}
+	
+	.offcanvas-title {
+		font-size: 1.25rem; margin-bottom: 0;line-height: 0.2;
+	}
+	
+	.offcanvas-body {
+		background-color: #1F1F30; color: #CFCFCF; padding-top: 20px; padding-bottom: 20px;border: none;overflow-x: hidden;word-wrap: break-word; margin-bottom: 40px;
+	}
+	
+	.user-info {
+		text-align: center; margin-bottom: 20px;
+	}
+	
+	.user-avatar {
+		width: 110px;/* Adjust size as needed */
+		height: auto; border-radius: 50%;/* Circular avatar */
+		margin-bottom: 10px;
+	}
+	
+	.user-details {
+		font-size: 1rem;
+	}
+	
+	.user-name {
+		font-size: 25px; font-family: 'FontAwesome'; padding: 10px; color: aquamarine;
+	}
+	
+	.user-status {
+		color: #00aeff; font-size: 0.85rem;
+	}
+	
+	.user-stats {
+		margin-top: 10px;
+	}
+	
+	.user-stats-item {
+		margin-right: 10px; font-size: 0.85rem;
+	}
+	
+	.user-stats-item i {
+		margin-left: 5px;
+	}
+	
+	.user-nav {
+		display: flex; justify-content: space-around; margin-top: 20px;
+	}
+	
+	.btn-group .btn {
+		margin-left: -2px;transition: background-color 0.3s ease;background: #1f1f30;color: white;border: none;
+	}
+	
+	.btn-group .btn:first-child {
+		border-top-left-radius: 0.25rem; border-bottom-left-radius: 0.25rem;
+	}
+	
+	.btn-group .btn:last-child {
+		border-top-right-radius: 0.25rem; border-bottom-right-radius: 0.25rem;
+	}
+	
+	.btn-group .btn:not(:first-child):not(:last-child) {
+		border-radius: 0;/* Remove border-radius for middle buttons */
+	}
+	
+	.btn .fa {
+		margin-right: 5px;
+	}
+	
+	.btn-points .fa-gem {
+		color: lightgreen;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-userblood .fa-droplet {
+		color: skyblue;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-rootblood .fa-droplet {
+		color: red;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-userpwn .fa-desktop {
+		color: skyblue;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-rootpwn .fa-desktop {
+		color: red;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-coins .fa-coins {
+		color: gold;/* Sets the color of the coins icon in the Coins button */
+	}
+	
+	.btn-tasks .fa-sword {
+		color: skyblue;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-completed .fa-fort-awesome {
+		color: #FF5353;/* Sets the color of the gem icon in the Points button */
+	}
+	
+	.btn-start .fa-lock {
+		color: gold;
+	}
+	
+	.btn-custom:hover {
+		opacity: 0.8;/* Slight transparency on hover */
+	}
+	
+	.btn-custom .fa-gem,
+	.btn-custom .fa-coins {
+		margin-right: 5px;/* Space between icon and text */
+	}
+	
+	.nav-link:not(.active) {
+		color: white;
+	}
+	
+	.nav-link.active {
+		background-color: #23223B !important; color: #3DD1A5 !important; border-color: #3DD1A5 !important; border-style: ridge !important;
+	}
+	/* Additional hover styles for nav links */
+	
+	.nav-link:hover {
+		background-color: #23223B;/* You can change the color as per your need */
+		color: white;
+	}
+	
+	.tab-navigation {
+		justify-content: center; border-bottom: none;
+	}
+	
+	.tab-item {
+		border-radius: 8px; margin: 0 2px; padding: 6px 12px; border: 2px ridge transparent; color: #fff; padding-left: -40px !important;
+	}
+	
+	.tab-profile.active {
+		border-color: #17a2b8; border-style: ridge;
+	}
+	
+	.tab-cheatsheets.active {
+		border-color: #17a2b8; border-style: ridge;
+	}
+	
+	.tab-workflow.active {
+		border-color: lightgreen; border-style: ridge;
+	}
+	
+	.tab-resources.active {
+		border-color: #dc3545; border-style: ridge;
+	}
+	
+	.tab-content {
+		padding: 5px;
+	}
+	
+	pre {
+		background-color: #11111a;/* Dark background for better contrast */
+		color: skyblue;/* Light color for the text */
+		font-family: 'Fira code', Courier, monospace;/* Monospace font for code */
+		padding: 2px;/* Some padding inside the pre element */
+		overflow-x: auto;/* Allows horizontal scrolling if content overflows */
+		white-space: pre-wrap; word-break: break-all; overflow-y: auto; padding-left: 5px; border: none;
+	}
+	
+	code {
+		font-size: .875em; word-wrap: break-word; border: 20px !important; border-radius: 5px; background: #3dd1a5 !important; padding: 2px 4px; color: black !important; font-weight: bolder;
+	}
+	
+	::-webkit-scrollbar {
+		width: 2;/* Remove scrollbar width */
+		height: 2;/* Remove scrollbar height */
+	}
+	/* Show the scrollbar when hovering over the scrollable element */
+	
+	.scroll-container:hover::-webkit-scrollbar {
+		width: 2px;/* Adjust the width as needed */
+		height: 2px;/* Adjust the height as needed */
+	}
+	/* Track */
+	
+	::-webkit-scrollbar-track {
+		background: yellow;/* Hide scrollbar track */
+	}
+	/* Handle */
+	
+	::-webkit-scrollbar-thumb {
+		background: #888;/* Change the color of the scrollbar handle */
+		border-radius: 4px;/* Rounded corners for the scrollbar handle */
+	}
+	
+	* {
+		scrollbar-width: thin; #2b2b4a;/* Firefox 64 and later */
+	}
+	/* Optionally, you can hide scrollbar buttons */
+	
+	* {
+		scrollbar-color: #2b2b4a transparent;/* Firefox 64 and later */
+	}
+	
+	.skill-name {
+		text-align: left; color: white; font-size: medium; font-weight: 400;
+	}
+	
+	.titlep {
+		font-size: x-large; font-weight: 400; color: aquamarine;
+	}
+	
+	.skills {
+		text-align: left; color: white !important;font-size: large;
+	}
+	
+	.h33 {
+		color: skyblue !important;
+	}
+	
+	.profile-progress {
+		background-color: #474646; border-radius: var(--bs-profile-progress-border-radius); height: 10px; --bs-profile-progress-bar-bg: #47c79c;border-radius: 39px;
+	}
+	
+	.profile-progress-bar {
+		background-color: #da6969; border-radius: var(--bs-profile-progress-border-radius); height: 10px; --bs-profile-progress-bar-bg: #47c79c;border-radius: 39px;
+	}
+	
+	.card {
+		background-color: none; --bs-card-bg: none; padding-bottom: 5px;
+	}
+	
+	.card-header {
+		background: #414192; color: mediumaquamarine;
+	}
+	
+	.card-header .btn {
+		width: 100%; text-align: center; background: #414192;
+	}
+	
+	.fa-lock {
+		margin-right: 10px;
+	}
+	
+	.profile-accordion-item {
+		background-color: #2c2c3d; border: none; border-left: 3px solid #3DD1A5;
+		/* Red color for collapsed state */
+		margin-bottom: 15px; transition: border-left-color 0.3s ease;
+		/* Transition for smooth color change */
+	}
+	
+	.profile-accordion-header .profile-accordion-button {
+		background-color: #2b2b4c; color: white; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.3s; font-size: x-large;
+	}
+	
+	.profile-accordion-header .profile-accordion-button:not(.collapsed) {
+		background-color: #1e1e2f; color: #fff; font-size: x-large; border-bottom: 3px solid #2c2c3d; background: #414192;box-shadow: inset 0 calc(-1* var(--bs-profile-accordion-border-width)) 0 #3cd1a400;
+	}
+	
+	.profile-accordion-button:not(.collapsed)::after {
+		filter: hue-rotate(289deg) saturate(500%);
+	}
+	
+	.profile-accordion-button.collapsed::after {
+		filter: brightness(2.5);
+	}
+	
+	.profile-accordion-button {
+		border-bottom: 3px solid #2b2b4b; background: #414192;
+	}
+	
+	.profile-accordion-body {
+		background-color: #1e1e2f; border-top: 1px solid #333346; padding: 15px; color: lightgray;order: solid 3px blue;
+		/* Set all text inside to light gray */
+	}
+	
+	button.profile-btn.collapsed {
+		background: none; border: none; color: white; --bs-card-border-color: none;
+	}
+	
+	pre {
+		text-align: left; padding-left: 2px;
+	}
+	
+	.offcanvas-footer {
+		position: fixed; bottom: 0; left: 0; z-index: 9999; padding: 0.5rem; width: inherit; height: 64px; background-color: #f8f9fa; box-shadow: 0 -1px 4px rgba(0, 0, 0, .1); background-color: #383859; box-shadow: 0 -1px 4px rgba(0, 0, 0, .1); color: white; text-align: center;
+	}
+	
+	#node-completed {}
+	
+	.node.not-completed {
+		display: none;margin: 10px; padding: 10px; border-radius: 4px; transition: transform 0.3s ease;width: 100px; height: auto;margin: 10px; padding: 10px; border-radius: 4px; transition: transform 0.3s ease;
+	}
+	
+	.node.completed {
+		margin: 10px; padding: 10px; border-radius: 4px; transition: transform 0.3s ease;border-radius: 4px; border: 3px ridge lightgreen; width: 110px; height: auto; margin: 10px; padding: 10px; border-radius: 4px; transition: transform 0.3s ease;background: #1e1e2d;color: lightgreen;
+	}
+	
+	.node.unlocked img {
+		filter: grayscale(0%);
+	}
+	
+	.node.locked img {
+		filter: grayscale(90%);
+	}
+	
+	.objectives-container {
+		text-align: center; padding: 20px; margin-left: auto; margin-right: auto; background-color: #1e1e2d; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);margin-top: -50px;
+	}
+	
+	.key-objectives {
+		margin: 0 0 20px 0; color: skyblue; font-family: 'Arial', sans-serif; font-size: 24px;font-weight: 100;
+	}
+	
+	.node {
+		display: inline-block; position: relative; margin: 10px; padding: 10px; transition: transform 0.3s ease;
+	}
+	
+	.node img {
+		width: 100px; height: auto;
+	}
+	
+	.keyobj-overlay {
+		display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4);/* Dark keyobj-overlay */
+		border-radius: 4px;/* Match parent's border-radius */
+		cursor: pointer;
+	}
+	
+	.keyobj-overlay-unlocked {
+		display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4); border-radius: 4px;/* Match parent's border-radius */
+		cursor: pointer;
+	}
+	
+	.keyobj-overlay-content {
+		position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 20px;
+	}
+	
+	.node:hover .keyobj-overlay {
+		display: inline-block;
+	}
+	
+	.cwr-hidden {
+		display: none !important;
+	}
+	
+	.badge-container {
+		display: flex; flex-direction: column;/* Stack children vertically */
+		align-items: center;/* Center children horizontally */
+		background: #1e1e2d; color: white; font-family: 'Arial', sans-serif; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); margin: auto; width: 100%; padding-top: 30px !important; margin-top: -45px !important;
+	}
+	
+	.badge-title {
+		margin-top: 30px;/* Adjust top margin instead of padding */
+		font-size: 1.8em; line-height: normal; color: #FFFFFF; text-align: center; padding-right: 20px;
+	}
+	
+	.course-title {
+		color: #FFFFFF; font-size: 1.4em; font-weight: bold; position: absolute;/* Keep absolute positioning */
+		left: 50%; transform: translateX(-50%);/* Center horizontally */
+		background-color: maroon; padding: 5px 20px; border-radius: 20px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); text-align: center;
+	}
+	
+	.badge-body {
+		display: flex; flex-direction: row;/* Ensure horizontal layout */
+		justify-content: space-between;/* Center children horizontally */
+		width: 100%;/* Ensure the body takes full width of the container */
+		margin-top: 20px;/* Add space between title and content */
+	}
+	
+	.badge-image img {
+		width: 220px; margin-right: 20px; top: -30px; padding-bottom: 0px; margin-bottom: -50px;
+	}
+	
+	.badge-meta {
+		display: flex; flex-direction: column; align-items: flex-start;
+	}
+	
+	.meta-item {
+		font-size: 0.9em; color: #ccc;
+	}
+	/* Adjustments for smaller screens */
+	
+	@media (max-width: 1768px) {
+		.badge-container {
+			flex-direction: column;
+		}
+		.badge-body {
+			flex-direction: column; align-items: center;
+		}
+		.badge-image img {
+			margin-right: 0;/* Remove right margin on small screens */
+		}
+		.course-title {
+			position: static;/* Remove absolute positioning */
+			transform: none; margin-bottom: 10px;/* Adjust margin for visual separation */
+		}
+	}
+	
+	.code-block-container {
+		border-radius: 8px; margin: 20px 0; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); position: relative; margin-left: 30px; margin-right: 30px;
+	}
+	
+	.code-title-bar {
+		display: flex; align-items: center; background: #191924; color: #FFFFFF; padding: 0.5rem; border-top-left-radius: 8px; border-top-right-radius: 8px; position: relative;/ ;
+	}
+	
+	.window-controls {
+		display: flex; margin-right: 1rem;/* Spacing between controls and title */
+		position: absolute; top: 14px; left: 10px;/* Place controls in the top-left corner */
+	}
+	
+	.window-control {
+		height: 12px; width: 12px; border-radius: 50%; margin-right: 10px;/* Spacing between controls */
+	}
+	
+	.window-control.red {
+		background: #ff5f56;
+	}
+	
+	.window-control.yellow {
+		background: #ffbd2e;
+	}
+	
+	.window-control.green {
+		background: #27c93f;
+	}
+	
+	.code-title {
+		flex-grow: 1; text-align: center; margin-left: 30px; margin-right: 30px;
+	}
+	
+	pre {
+		margin: 0; padding: 1rem; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; color: #c5c8c6; overflow: auto; border: none;
+	}
+	
+	.default .code-block-container {
+		background: #2a2d36; margin-left: 30px; margin-right: 30px;
+	}
+	
+	.default pre {
+		background: #393f53; font-size: large; color: mediumaquamarine
+	}
+	
+	.default .code-block-container {
+		background: #333333; margin-left: 30px; margin-right: 30px;
+	}
+	/* Variant: Kali Theme */
+	
+	.kali pre {
+		background: #333333;/* Set background color for Kali theme */
+	}
+	/* Variant: Linux Theme */
+	
+	.linux .code-block-container {
+		background: #000000;
+	}
+	
+	.linux pre {
+		background: #000000;/* Set background color for Linux theme */
+	}
+	/* Variant: PowerShell Theme */
+	
+	.powershell .code-block-container {
+		background: #012456;
+	}
+	
+	.powershell pre {
+		background: #012456;/* Set background color for PowerShell theme */
+	}
+	/* Variant: CMD Theme */
+	
+	.cmd .code-block-container {
+		background: #012345;
+	}
+	
+	.cmd pre {
+		background: #012345;/* Set background color for CMD theme */
+	}
+	
+	.alert {
+		margin: 50px; padding-left: 50px; padding-right: 50px;
+	}
+
+</style>
