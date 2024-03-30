@@ -213,7 +213,8 @@
 	}
 	
 	.modal-content {
-		background-color: #334155;/* Specify your desired background color here */
+		display: none;
+		background-color: #20202e;/* Specify your desired background color here */
 		color: #ffffff;/* Adjust text color for better readability if needed */
 		/* Other styling properties as needed */
 	}
