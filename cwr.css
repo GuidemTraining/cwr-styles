@@ -424,8 +424,9 @@
 	}
 	
 	.btn-completed .fa-fort-awesome {
-		color: #FF5353;/* Sets the color of the gem icon in the Points button */
-	}
+                color: #FF5353; /* Sets the color of the gem icon in the Points button */
+                font-family: "Font Awesome 5 Brands";
+        }
 	
 	.btn-start .fa-lock {
 		color: gold;
